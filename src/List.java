@@ -7,6 +7,5 @@ public interface List<T> {
     public void remove();
     public boolean full();
     public boolean empty();
-
     public boolean last ();
 }
