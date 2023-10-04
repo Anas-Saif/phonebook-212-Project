@@ -1,10 +1,10 @@
 import java.util.Scanner;
 public class Phonebook {
 
-    public boolean add() {
+    public void add(LinkedList <Contact> l) {
         Scanner input = new Scanner(System.in);
         {
-            Contact tmp = new Contact();
+
 
             System.out.println("Enter contact name: ");
             String contactName = input.next();
@@ -24,8 +24,34 @@ public class Phonebook {
             System.out.println("Enter contact notes: ");
             String contactNotes = input.next();
 
+            Contact tmp = new Contact(contactName, contactPhone, contactEmail, contactAddress, contactBirthday, contactNotes);
 
-            return true;
+            if(ckeck(tmp,l))
+                l.insert(tmp);//sort then add !!!!!!!!!!
+            else
+                System.out.println("Contact already exist");
+            return ;
         }
+    }
+    public boolean ckeck(Contact t,LinkedList <Contact> l){
+        if(!l.empty()){
+            l.findFirst();
+            while(!l.last()){
+                if(l.retrieve().getContactName().equals(t.getContactName()))
+                    return false;
+
+                if(l.retrieve().getContactPhone().equals(t.getContactPhone()))
+                    return false;
+
+                l.findNext();
+            }
+            if(l.retrieve().getContactName().equals(t.getContactName()))
+                return false;
+
+            if(l.retrieve().getContactPhone().equals(t.getContactPhone()))
+                return false;
+
+        }
+        return true;
     }
 }

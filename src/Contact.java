@@ -54,4 +54,28 @@ public class Contact implements Comparable <String>{
                 ", contactNotes='" + contactNotes + '\'' +
                 '}';
     }
+
+    public String getContactName() {
+        return contactName;
+    }
+
+    public String getContactPhone() {
+        return contactPhone;
+    }
+
+    public String getContactEmail() {
+        return contactEmail;
+    }
+
+    public String getContactAddress() {
+        return contactAddress;
+    }
+
+    public String getContactBirthday() {
+        return contactBirthday;
+    }
+
+    public String getContactNotes() {
+        return contactNotes;
+    }
 }
