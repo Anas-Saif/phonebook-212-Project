@@ -42,4 +42,16 @@ public class Contact implements Comparable <String>{
         System.out.println("Birthday: "+contactBirthday);
         System.out.println("Notes: "+contactNotes);
     }
+
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "contactName='" + contactName + '\'' +
+                ", contactPhone='" + contactPhone + '\'' +
+                ", contactEmail='" + contactEmail + '\'' +
+                ", contactAddress='" + contactAddress + '\'' +
+                ", contactBirthday='" + contactBirthday + '\'' +
+                ", contactNotes='" + contactNotes + '\'' +
+                '}';
+    }
 }
