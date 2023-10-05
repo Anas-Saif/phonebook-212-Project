@@ -27,7 +27,7 @@ public class Phonebook {
             Contact tmp = new Contact(contactName, contactPhone, contactEmail, contactAddress, contactBirthday, contactNotes);
 
             if(ckeck(tmp,l))
-                sort(tmp,l);//sort then add !!!!!!!!!!
+                sort(tmp,l);
             else
                 System.out.println("Contact already exist");
             return ;
@@ -71,4 +71,9 @@ public class Phonebook {
         }
         l.insert(s);
     }
+
+    //searchin method by anyway
+
+
+
 }
