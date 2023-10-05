@@ -1,11 +1,9 @@
 import java.util.Scanner;
 public class Phonebook {
-
+    Scanner input = new Scanner(System.in); // Create a Scanner object
+    //
     public void add(LinkedList <Contact> l) {
-        Scanner input = new Scanner(System.in);
         {
-
-
             System.out.println("Enter contact name: ");
             String contactName = input.next();
 
@@ -26,14 +24,14 @@ public class Phonebook {
 
             Contact tmp = new Contact(contactName, contactPhone, contactEmail, contactAddress, contactBirthday, contactNotes);
 
-            if(ckeck(tmp,l))
+            if(check(tmp,l))
                 sort(tmp,l);
             else
                 System.out.println("Contact already exist");
             return ;
         }
     }
-    public boolean ckeck(Contact t,LinkedList <Contact> l){
+    public boolean check(Contact t,LinkedList <Contact> l){
         if(!l.empty()){
             l.findFirst();
             while(!l.last())
@@ -54,7 +52,7 @@ public class Phonebook {
         if(!l.empty()){
             l.findFirst();
             while(!l.last()){
-                if(l.retrieve().getContactName().compareTo(s.getContactName())==-1){
+                if(s.getContactName().compareTo(l.retrieve().getContactName())==-1){
                     l.insert(s);
                     return;}
                 l.findNext();
@@ -68,8 +66,145 @@ public class Phonebook {
         l.insert(s);
     }
 
-    //searchin method by anyway
+    //searching method by anyway
+
+    public void searchByName(LinkedList <Contact> l){
+        System.out.println("Enter contact name: ");
+        String contactName = input.next();
+        if(!l.empty()){
+            l.findFirst();
+            while(!l.last()){
+                if(l.retrieve().getContactName().equals(contactName)){
+                    l.retrieve().displayContactDetails();
+                    return;
+                }
+                l.findNext();
+            }
+            if(l.retrieve().getContactName().equals(contactName)){
+                l.retrieve().displayContactDetails();
+                return;
+            }
+        }
+        System.out.println("Contact not found");
+    }
+    public void searchByPhone(LinkedList <Contact> l){
+        System.out.println("Enter contact Phone Number: ");
+        String contactPhoneNumber = input.next();
+        if(!l.empty()){
+            l.findFirst();
+            while(!l.last()){
+                if(l.retrieve().getContactPhone().equals(contactPhoneNumber)){
+                    l.retrieve().displayContactDetails();
+                    return;
+                }
+                l.findNext();
+            }
+            if(l.retrieve().getContactPhone().equals(contactPhoneNumber)){
+                l.retrieve().displayContactDetails();
+                return;
+            }
+        }
+        System.out.println("Contact not found");
+    }
+    public void searchByEmail(LinkedList <Contact> l){
+        System.out.println("Enter contact Email: ");
+        String contactEmail = input.next();
+        boolean found=false;
+        if(!l.empty()){
+            l.findFirst();
+            while(!l.last()){
+                if(l.retrieve().getContactEmail().equals(contactEmail)){
+                    l.retrieve().displayContactDetails();
+                    found=true;
+                }
+                l.findNext();
+            }
+
+            if(l.retrieve().getContactEmail().equals(contactEmail)){
+                l.retrieve().displayContactDetails();
+                return;
+            }
+        }
+        if(!found)
+            System.out.println("Contact not found");
+    }
+    public void searchByAddress(LinkedList <Contact> l){
+        System.out.println("Enter contact Address: ");
+        String contactAddress = input.next();
+        boolean found=false;
+        if(!l.empty()){
+            l.findFirst();
+            while(!l.last()){
+                if(l.retrieve().getContactAddress().equals(contactAddress)){
+                    l.retrieve().displayContactDetails();
+                    found=true;
+                }
+                l.findNext();
+            }
+
+            if(l.retrieve().getContactAddress().equals(contactAddress)){
+                l.retrieve().displayContactDetails();
+                return;
+            }
+        }
+        if(!found)
+            System.out.println("Contact not found");
+    }
+    public void searchByBirthday(LinkedList <Contact> l){
+        System.out.println("Enter contact Birthday: ");
+        String contactBirthday = input.next();
+        boolean found=false;
+        if(!l.empty()){
+            l.findFirst();
+            while(!l.last()){
+                if(l.retrieve().getContactBirthday().equals(contactBirthday)){
+                    l.retrieve().displayContactDetails();
+                    found=true;
+                }
+                l.findNext();
+            }
+
+            if(l.retrieve().getContactBirthday().equals(contactBirthday)){
+                l.retrieve().displayContactDetails();
+                return;
+            }
+        }
+        if(!found)
+            System.out.println("Contact not found");
+    }
+    public void search(LinkedList <Contact> l){
+        System.out.println("Search by: ");
+        System.out.println("1-Name");
+        System.out.println("2-Phone Number");
+        System.out.println("3-Email");
+        System.out.println("4-Address");
+        System.out.println("5-Birthday");
+        int choice = input.nextInt();
+        switch (choice){
+            case 1:
+                searchByName(l);
+                break;
+            case 2:
+                searchByPhone(l);
+                break;
+            case 3:
+                searchByEmail(l);
+                break;
+            case 4:
+                searchByAddress(l);
+                break;
+            case 5:
+                searchByBirthday(l);
+                break;
+            default:
+                System.out.println("Invalid choice");
+        }
+        /*to do:
+        1- fix Sort method
+        2- Create Events Class
+        */
 
 
+    }
 
 }
