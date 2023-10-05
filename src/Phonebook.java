@@ -27,7 +27,7 @@ public class Phonebook {
             Contact tmp = new Contact(contactName, contactPhone, contactEmail, contactAddress, contactBirthday, contactNotes);
 
             if(ckeck(tmp,l))
-                l.insert(tmp);//sort then add !!!!!!!!!!
+                sort(tmp,l);//sort then add !!!!!!!!!!
             else
                 System.out.println("Contact already exist");
             return ;
@@ -49,5 +49,22 @@ public class Phonebook {
 
         }
         return true;
+    }
+    public void sort(Contact s, LinkedList <Contact> l){
+        if(!l.empty()){
+            l.findFirst();
+            while(!l.last()){
+                if(l.retrieve().getContactName().compareTo(s.getContactName())==-1){
+                    l.insert(s);
+                    return;}
+                l.findNext();
+            }
+            if(l.retrieve().getContactName().compareTo(s.getContactName())==-1)
+                l.insert(s);
+
+            l.findNext();
+            l.insert(s);
+        }
+        l.insert(s);
     }
 }
