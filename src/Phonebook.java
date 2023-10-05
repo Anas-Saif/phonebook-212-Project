@@ -36,19 +36,15 @@ public class Phonebook {
     public boolean ckeck(Contact t,LinkedList <Contact> l){
         if(!l.empty()){
             l.findFirst();
-            while(!l.last()){
-                if(l.retrieve().getContactName().equals(t.getContactName()))
+            while(!l.last())
+            {
+                //Check if there conflict in name or phone
+                if(l.retrieve().getContactName().equals(t.getContactName()) || l.retrieve().getContactPhone().equals(t.getContactPhone()) )
                     return false;
-
-                if(l.retrieve().getContactPhone().equals(t.getContactPhone()))
-                    return false;
-
                 l.findNext();
             }
-            if(l.retrieve().getContactName().equals(t.getContactName()))
-                return false;
-
-            if(l.retrieve().getContactPhone().equals(t.getContactPhone()))
+            //check last element
+            if(l.retrieve().getContactName().equals(t.getContactName()) || l.retrieve().getContactPhone().equals(t.getContactPhone()))
                 return false;
 
         }
