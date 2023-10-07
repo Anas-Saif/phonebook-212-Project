@@ -24,10 +24,13 @@ public class Phonebook {
 
             Contact tmp = new Contact(contactName, contactPhone, contactEmail, contactAddress, contactBirthday, contactNotes);
 
-            if(check(tmp,l))
-                sort(tmp,l);
-            else
+            if(check(tmp,l)) {
+                sort(tmp, l);
+                System.out.println("Added succsesfully");
+            }
+            else {
                 System.out.println("Contact already exist");
+            }
             return ;
         }
     }
@@ -52,17 +55,23 @@ public class Phonebook {
         if(!l.empty()){
             l.findFirst();
             while(!l.last()){
-                if(s.getContactName().compareTo(l.retrieve().getContactName())==-1){
-                    l.insert(s);
+                if(s.getContactName().compareTo(l.retrieve().getContactName())<=-1){
+                    Contact tmp = l.retrieve();
+                    l.update(s);
+                    l.insert(tmp);
                     return;}
                 l.findNext();
             }
-            if(l.retrieve().getContactName().compareTo(s.getContactName())==-1)
-                l.insert(s);
-
-            l.findNext();
+            if(s.getContactName().compareTo(l.retrieve().getContactName())<=-1){
+                Contact tmp = l.retrieve();
+                l.update(s);
+                l.insert(tmp);
+            }
+            else{
             l.insert(s);
+            }
         }
+        else
         l.insert(s);
     }
 
@@ -180,7 +189,7 @@ public class Phonebook {
         System.out.println("4-Address");
         System.out.println("5-Birthday");
         int choice = input.nextInt();
-        switch (choice){
+        switch (choice) {
             case 1:
                 searchByName(l);
                 break;
@@ -199,12 +208,20 @@ public class Phonebook {
             default:
                 System.out.println("Invalid choice");
         }
-        /*to do:
-        1- fix Sort method
-        2- Create Events Class
+    }
+     /*to do:
+        1-delete name or phone number.
+        2- Create Events Class.
         */
 
-
+    public void display(LinkedList <Contact> l){
+        if(!l.empty()){
+            l.findFirst();
+            while (!l.last()){
+                System.out.println(l.retrieve().toString());
+                l.findNext();
+            }
+            System.out.println(l.retrieve().toString());
+        }
     }
-
 }
