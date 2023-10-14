@@ -1,9 +1,10 @@
-public class Event {
+
+
+public class Event implements Comparable <String>{
     private String title;
     private String dateAndTime;
     private String location;
-    private Contact contact;
-
+    private Contact contactInEvent;
     public Event() {
     }
 
@@ -11,14 +12,14 @@ public class Event {
         this.title = title;
         this.dateAndTime = dateAndTime;
         this.location = location;
-        this.contact = contact;
+        this.contactInEvent = contact;
     }
 
-    public Event (Event e){
+    public Event(Event e){
         this.title = e.title;
         this.dateAndTime = e.dateAndTime;
         this.location = e.location;
-        this.contact = e.contact;
+        this.contactInEvent = e.contactInEvent;
     }
 
     public String getTitle() {
@@ -34,7 +35,7 @@ public class Event {
     }
 
     public Contact getContact() {
-        return contact;
+        return contactInEvent;
     }
 
 
@@ -42,7 +43,7 @@ public class Event {
         System.out.println("title: "+title);
         System.out.println("date and time: "+dateAndTime);
         System.out.println("location: "+location);
-        System.out.println("with: "+ contact.getContactName());
+        System.out.println("with: "+ contactInEvent.getContactName());
     }
 
 
@@ -52,8 +53,15 @@ public class Event {
                 "title='" + title + '\'' +
                 ", dateAndTime='" + dateAndTime + '\'' +
                 ", location='" + location + '\'' +
-                ", contact=" + contact +
+                ", contact=" + contactInEvent +
                 '}';
+    }
+
+
+
+    @Override
+    public int compareTo(String dnt) {
+       return dateAndTime.compareTo(dnt);
     }
 }
 
