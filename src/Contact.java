@@ -16,8 +16,8 @@ public class Contact implements Comparable <String>{
         this.contactNotes = contactNotes;
         eventsInContact =new LinkedList<>();
     }
-    
-    
+
+
 
     public Contact(Contact c){
         this.contactName=c.contactName;

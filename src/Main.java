@@ -1,33 +1,72 @@
 import java.time.LocalDateTime;
+import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
-/*        LocalDateTime a = LocalDateTime.of(2023,02,23,12);
-//        LocalDateTime d = LocalDateTime.of();
-//        System.out.println(d.compareTo(a));
-//        System.out.println( d.getHour());
+        Scanner input = new Scanner(System.in);
+        Phonebook mainPhoneBook = new Phonebook();
 
-        System.out.println("Enter event date and time Ex: YYYY/MM/DD ");
-         String date = "2023/05/11";
-         String year= date.split("/")[0];
-        String month= date.split("/")[1];
-        String day= date.split("/")[2];
-        System.out.println(year);
-        System.out.println(month);
-        System.out.println(date);
-        */
-        Phonebook p = new Phonebook();
-        Phonebook p2 = new Phonebook();
-        p.addContact();
-        p.display();
-        p2.display();
-        p.addEvent();
-        p.addEvent();
-        p.addEvent();
-        p2.addEvent();
-        p.deleteContact();
-        p.display();
+       while (true)
+       {
+            System.out.println("Welcome to the LinkedTree Phonebook!");
+            System.out.println("Please select an option:");
+            System.out.println("1. Add a contact");
+            System.out.println("2. Search for contact");
+            System.out.println("3. Delete a contact");
+            System.out.println("4. Schedule an event");
+            System.out.println("5. Print event details");
+            System.out.println("6. Print contact by first name");
+            System.out.println("7. Print all events alphabetically");
+            System.out.println("8. Exit");
+            System.out.print("Enter your choice: ");
+
+            int choice = input.nextInt();
+
+            switch (choice)
+           {
+               case 1:
+               {
+                   mainPhoneBook.addContact();
+                   break;
+               }
+                case 2:
+                {
+                     mainPhoneBook.search();
+                     break;
+                }
+                case 3:
+                {
+                    mainPhoneBook.deleteContact();
+                    break;
+                }
+                case 4:
+                {
+                    mainPhoneBook.addEvent();
+                    break;
+                }
+                case 5:
+                {
+                    mainPhoneBook.searchEvent();
+                    break;
+                }
+               case 6:
+               {
+                   mainPhoneBook.searchByFirstName();
+                   break;
+               }
+               case 7:
+               {
+                   mainPhoneBook.displayAllEvents();
+                   break;
+               }
+               case 8:
+               {
+                   System.out.println("Goodbye!");
+                   System.exit(0);
+               }
+           }
+       }
 
 
 
