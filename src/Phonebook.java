@@ -1,7 +1,9 @@
+import java.time.LocalDateTime;
+
 import java.util.Scanner;
 public class Phonebook {
     private LinkedList <Contact> c = new LinkedList<>();
-
+    private LinkedList <Event> allEvents = new LinkedList<>();
     Scanner input = new Scanner(System.in); // Create a Scanner object
     //
 
@@ -71,11 +73,11 @@ public class Phonebook {
                 c.insert(tmp);
             }
             else{
-            c.insert(s);
+                c.insert(s);
             }
         }
         else{
-        c.insert(s);}
+            c.insert(s);}
     }
 
     //searching method by anyway
@@ -255,15 +257,31 @@ public class Phonebook {
 
 
         Contact tmpContact = searchByNameP(contactName);
-        if (!check(tmpContact) && tmpContact!= null) {
-            System.out.println("Enter event date and time (MM/DD/YYYY HH:MM): ");
-            String dateAndTime = input.next();
+        if (tmpContact!= null && !check(tmpContact)) {
+            System.out.println("Enter event date Ex: YYYY/MM/DD ");
+            String date = input.next();
+            System.out.println("Enter event Start time Ex: HH:MM ");
+            String startTime = input.next();
+            System.out.println("Enter event End time Ex: HH:MM ");
+            String endTime = input.next();
+            int year= Integer.parseInt(date.split("/")[0]);
+            int month= Integer.parseInt(date.split("/")[1]);
+            int day= Integer.parseInt(date.split("/")[2]);
+            int startHour=Integer.parseInt(startTime.split(":")[0]);
+            int startMinute=Integer.parseInt(startTime.split(":")[1]);
+            int endHour=Integer.parseInt(endTime.split(":")[0]);
+            int endMinute=Integer.parseInt(endTime.split(":")[1]);
+            LocalDateTime startEvent = LocalDateTime.of(year,month,day,startHour,startMinute);
+            LocalDateTime endEvent = LocalDateTime.of(year,month,day,endHour,endMinute);
+
+
 
             System.out.println("Enter event location: ");
             String eventLocation = input.next();
-            Event tmpEvent = new Event(eventTitle, dateAndTime, eventLocation, tmpContact);
-            if (!isConflict(tmpEvent,tmpContact)){
+            Event tmpEvent = new Event(eventTitle , startEvent ,endEvent, eventLocation, tmpContact);
+            if (!isConflict(tmpEvent)){
                 sortEvent(tmpContact,tmpEvent);
+                tmpContact.setEventsInContact(tmpEvent);
             }
         }
         else {
@@ -271,17 +289,21 @@ public class Phonebook {
             return;
         }
     }
-    public boolean isConflict(Event e, Contact t){
-        if (!t.getEvents().empty()){
-            t.getEvents().findFirst();
-            while (!t.getEvents().last()){
-                if ( t.getEvents().retrieve().getDateAndTime().equalsIgnoreCase(e.getDateAndTime())){
+    public boolean isConflict(Event e){ // in the event linked list
+        if (!allEvents.empty()){
+            allEvents.findFirst();
+            while (!allEvents.last()){
+                if ( allEvents.retrieve().getStartTime().compareTo(e.getStartTime())==0
+                        || allEvents.retrieve().getEndTime().compareTo(e.getEndTime()) ==0
+                        || allEvents.retrieve().getStartTime().compareTo(e.getStartTime()) < 0 && allEvents.retrieve().getEndTime().compareTo(e.getEndTime()) > 0){
                     System.out.println("There's a conflict with other event");
                     return true;
                 }
-                t.getEvents().findNext();
+                allEvents.findNext();
             }
-            if ( t.getEvents().retrieve().getDateAndTime().equalsIgnoreCase(e.getDateAndTime())){
+            if (  allEvents.retrieve().getStartTime().compareTo(e.getStartTime())==0
+                    || allEvents.retrieve().getEndTime().compareTo(e.getEndTime()) ==0
+                    || allEvents.retrieve().getStartTime().compareTo(e.getStartTime()) < 0 && allEvents.retrieve().getEndTime().compareTo(e.getEndTime()) > 0){
                 System.out.println("There's a conflict with other event");
                 return true;
             }
@@ -295,27 +317,28 @@ public class Phonebook {
     }
 
     public void sortEvent(Contact c,Event s){
-       LinkedList<Event> e = c.getEvents();
-        if (!e.empty()){
-            e.findFirst();
-            while (!e.last()){
-                if (s.getTitle().toLowerCase().compareTo(e.retrieve().getTitle().toLowerCase()) <= -1){
-                    Event tmp = e.retrieve();
-                    e.update(s);
-                    e.insert(tmp);
+
+        if (!allEvents.empty()){
+
+            allEvents.findFirst();
+            while (!allEvents.last()){
+                if (s.getTitle().toLowerCase().compareTo(allEvents.retrieve().getTitle().toLowerCase()) <= -1){
+                    Event tmp = allEvents.retrieve();
+                    allEvents.update(s);
+                    allEvents.insert(tmp);
                     return;
                 }
-                e.findNext();
+                allEvents.findNext();
             }
-            if (s.getTitle().toLowerCase().compareTo(e.retrieve().getTitle().toLowerCase()) <= -1){
-                Event tmp = e.retrieve();
-                e.update(s);
-                e.insert(tmp);
+            if (s.getTitle().toLowerCase().compareTo(allEvents.retrieve().getTitle().toLowerCase()) <= -1){
+                Event tmp = allEvents.retrieve();
+                allEvents.update(s);
+                allEvents.insert(tmp);
                 return;
             }
 
-            }
-        e.insert(s);
+        }
+        allEvents.insert(s);
         return;
     }
 
