@@ -1,7 +1,7 @@
 public class Main {
     public static void main(String[] args) {
 
-        LinkedList<Contact> l1 = new LinkedList<Contact>();
+        LinkedList<Contact> l1 = new LinkedList<Contact>(); //review
         Phonebook p = new Phonebook();
 
         p.add(l1);
