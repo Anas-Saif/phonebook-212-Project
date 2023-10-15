@@ -1,23 +1,26 @@
-
+import java.time.LocalDateTime;
 
 public class Event implements Comparable <String>{
     private String title;
-    private String dateAndTime;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     private String location;
     private Contact contactInEvent;
     public Event() {
     }
 
-    public Event(String title, String dateAndTime, String location, Contact contact) {
+    public Event(String title, LocalDateTime startTime,LocalDateTime endTime, String location, Contact contact) {
         this.title = title;
-        this.dateAndTime = dateAndTime;
+        this.startTime = startTime;
+        this.endTime=endTime;
         this.location = location;
         this.contactInEvent = contact;
     }
 
     public Event(Event e){
         this.title = e.title;
-        this.dateAndTime = e.dateAndTime;
+        this.startTime = e.startTime;
+        this.endTime=e.endTime;
         this.location = e.location;
         this.contactInEvent = e.contactInEvent;
     }
@@ -26,9 +29,11 @@ public class Event implements Comparable <String>{
         return title;
     }
 
-    public String getDateAndTime() {
-        return dateAndTime;
+    public LocalDateTime getStartTime() {
+        return startTime;
     }
+    public LocalDateTime getEndTime() {return endTime;}
+
 
     public String getLocation() {
         return location;
@@ -41,7 +46,8 @@ public class Event implements Comparable <String>{
 
     public void displayEvents(){
         System.out.println("title: "+title);
-        System.out.println("date and time: "+dateAndTime);
+        System.out.println("start Time: "+ startTime);
+        System.out.println("end Time: "+ endTime);
         System.out.println("location: "+location);
         System.out.println("with: "+ contactInEvent.getContactName());
     }
@@ -51,17 +57,17 @@ public class Event implements Comparable <String>{
     public String toString() {
         return "Event{" +
                 "title='" + title + '\'' +
-                ", dateAndTime='" + dateAndTime + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
                 ", location='" + location + '\'' +
                 ", contact=" + contactInEvent +
                 '}';
     }
 
 
-
     @Override
-    public int compareTo(String dnt) {
-       return dateAndTime.compareTo(dnt);
+    public int compareTo(String title) {
+        return this.title.compareTo(title);
     }
 }
 

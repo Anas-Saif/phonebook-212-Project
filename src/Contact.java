@@ -63,8 +63,29 @@ public class Contact implements Comparable <String>{
     }
 
 
-    public void setEventsInContact(Event e){
-        eventsInContact.insert(e);
+    public void setEventsInContact(Event s){
+        if (!eventsInContact.empty()){
+
+            eventsInContact.findFirst();
+            while (!eventsInContact.last()){
+                if (s.getTitle().toLowerCase().compareTo(eventsInContact.retrieve().getTitle().toLowerCase()) <= -1){
+                    Event tmp = eventsInContact.retrieve();
+                    eventsInContact.update(s);
+                    eventsInContact.insert(tmp);
+                    return;
+                }
+                eventsInContact.findNext();
+            }
+            if (s.getTitle().toLowerCase().compareTo(eventsInContact.retrieve().getTitle().toLowerCase()) <= -1){
+                Event tmp = eventsInContact.retrieve();
+                eventsInContact.update(s);
+                eventsInContact.insert(tmp);
+                return;
+            }
+
+        }
+        eventsInContact.insert(s);
+        return;
     }
     public String getContactName() {
         return contactName;
