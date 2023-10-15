@@ -240,7 +240,7 @@ public class Phonebook {
     }
 
     public void deleteContact(){
-        System.out.println("Enter the contact name that you want to delete");
+        System.out.print("Enter the contact name that you want to delete :");
         String name = input.next();
         Contact tmp = searchByNameP(name);
         if (tmp != null) {
@@ -258,9 +258,10 @@ public class Phonebook {
             while(!allEvents.last()){
                 if(allEvents.retrieve().getContact().getContactName().equalsIgnoreCase(c.getContactName())){
                     allEvents.remove();
-
                 }
-                allEvents.findNext();
+                else{
+                    allEvents.findNext();
+                }
             }
             if(allEvents.retrieve().getContact().getContactName().equalsIgnoreCase(c.getContactName())){
                 allEvents.remove();
@@ -320,6 +321,7 @@ public class Phonebook {
             if (!isConflict(tmpEvent)){
                 sortEvent(tmpContact,tmpEvent);
                 tmpContact.setEventsInContact(tmpEvent);
+                System.out.println("Event has been added successfully");
             }
         }
         else {
@@ -327,30 +329,31 @@ public class Phonebook {
             return;
         }
     }
-    public boolean isConflict(Event e){ // in the event linked list
-        if (!allEvents.empty()){
+
+
+
+    public boolean isConflict(Event e) {
+        if (!allEvents.empty()) {
             allEvents.findFirst();
-            while (!allEvents.last()){
-                if ( allEvents.retrieve().getStartTime().compareTo(e.getStartTime())==0
-                        || allEvents.retrieve().getEndTime().compareTo(e.getEndTime()) ==0
-                        || allEvents.retrieve().getStartTime().compareTo(e.getStartTime()) < 0 && allEvents.retrieve().getEndTime().compareTo(e.getEndTime()) > 0){
-                    System.out.println("There's a conflict with other event");
+            while (!allEvents.last()) {
+                Event currentEvent = allEvents.retrieve();
+                if (currentEvent.getStartTime().compareTo(e.getEndTime()) < 0
+                        && currentEvent.getEndTime().compareTo(e.getStartTime()) > 0) {
+                    System.out.println("There's a conflict with another event");
                     return true;
                 }
                 allEvents.findNext();
             }
-            if (  allEvents.retrieve().getStartTime().compareTo(e.getStartTime())==0
-                    || allEvents.retrieve().getEndTime().compareTo(e.getEndTime()) ==0
-                    || allEvents.retrieve().getStartTime().compareTo(e.getStartTime()) < 0 && allEvents.retrieve().getEndTime().compareTo(e.getEndTime()) > 0){
-                System.out.println("There's a conflict with other event");
+
+            // Check the last event after the loop
+            Event currentEvent = allEvents.retrieve();
+            if (currentEvent.getStartTime().compareTo(e.getEndTime()) < 0
+                    && currentEvent.getEndTime().compareTo(e.getStartTime()) > 0) {
+                System.out.println("There's a conflict with another event");
                 return true;
-            }
-            else{
-                return false;
             }
         }
         return false;
-
     }
 
     public void sortEvent(Contact c,Event s){
