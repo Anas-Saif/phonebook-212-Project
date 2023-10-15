@@ -9,22 +9,22 @@ public class Phonebook {
 
     public void addContact() {
         {
-            System.out.println("Enter contact name: ");
+            System.out.print("Enter contact name: ");
             String contactName = input.next();
 
-            System.out.println("Enter contact phone: ");
+            System.out.print("Enter contact phone: ");
             String contactPhone = input.next();
 
-            System.out.println("Enter contact email: ");
+            System.out.print("Enter contact email: ");
             String contactEmail = input.next();
 
-            System.out.println("Enter contact address: ");
+            System.out.print("Enter contact address: ");
             String contactAddress = input.next();
 
-            System.out.println("Enter contact birthday: ");
+            System.out.print("Enter contact birthday: ");
             String contactBirthday = input.next();
 
-            System.out.println("Enter contact notes: ");
+            System.out.print("Enter contact notes: ");
             String contactNotes = input.next();
 
             Contact tmp = new Contact(contactName, contactPhone, contactEmail, contactAddress, contactBirthday, contactNotes);
@@ -83,7 +83,7 @@ public class Phonebook {
     //searching method by anyway
 
     public void searchByName(){
-        System.out.println("Enter contact name: ");
+        System.out.print("Enter contact name: ");
         String contactName = input.next();
         if(!c.empty()){
             c.findFirst();
@@ -102,7 +102,7 @@ public class Phonebook {
         System.out.println("Contact not found");
     }
     public void searchByPhone(){
-        System.out.println("Enter contact Phone Number: ");
+        System.out.print("Enter contact Phone Number: ");
         String contactPhoneNumber = input.next();
         if(!c.empty()){
             c.findFirst();
@@ -121,7 +121,7 @@ public class Phonebook {
         System.out.println("Contact not found");
     }
     public void searchByEmail(){
-        System.out.println("Enter contact Email: ");
+        System.out.print("Enter contact Email: ");
         String contactEmail = input.next();
         boolean found=false;
         if(!c.empty()){
@@ -143,7 +143,7 @@ public class Phonebook {
             System.out.println("Contact not found");
     }
     public void searchByAddress(){
-        System.out.println("Enter contact Address: ");
+        System.out.print("Enter contact Address: ");
         String contactAddress = input.next();
         boolean found=false;
         if(!c.empty()){
@@ -165,7 +165,7 @@ public class Phonebook {
             System.out.println("Contact not found");
     }
     public void searchByBirthday(){
-        System.out.println("Enter contact Birthday: ");
+        System.out.print("Enter contact Birthday: ");
         String contactBirthday = input.next();
         boolean found=false;
         if(!c.empty()){
@@ -193,6 +193,7 @@ public class Phonebook {
         System.out.println("3-Email");
         System.out.println("4-Address");
         System.out.println("5-Birthday");
+        System.out.print("Enter your choice: ");
         int choice = input.nextInt();
         switch (choice) {
             case 1:
@@ -214,18 +215,57 @@ public class Phonebook {
                 System.out.println("Invalid choice");
         }
     }
+    public void searchByFirstName(){
+        System.out.print("Enter First Name: ");
+        String firstName = input.next();
+        firstName= firstName.split(" ")[0];
+        boolean found=false;
+        if(!c.empty()){
+            c.findFirst();
+            while(!c.last()){
+                if(c.retrieve().getContactName().split(" ")[0].equalsIgnoreCase(firstName)){
+                    c.retrieve().displayContactDetails();
+                    found=true;
+                }
+                c.findNext();
+            }
+
+            if(c.retrieve().getContactName().split(" ")[0].equalsIgnoreCase(firstName)){
+                c.retrieve().displayContactDetails();
+                return;
+            }
+        }
+        if(!found)
+            System.out.println("Contact not found");
+    }
 
     public void deleteContact(){
         System.out.println("Enter the contact name that you want to delete");
         String name = input.next();
         Contact tmp = searchByNameP(name);
         if (tmp != null) {
+            deleteEvent(tmp);
             c.remove();
             System.out.println("Contact has been deleted");
             return;
         }
         System.out.println("The contact does not exists");
         return;
+    }
+    public void deleteEvent(Contact c){
+        if(!allEvents.empty()){
+            allEvents.findFirst();
+            while(!allEvents.last()){
+                if(allEvents.retrieve().getContact().getContactName().equalsIgnoreCase(c.getContactName())){
+                    allEvents.remove();
+
+                }
+                allEvents.findNext();
+            }
+            if(allEvents.retrieve().getContact().getContactName().equalsIgnoreCase(c.getContactName())){
+                allEvents.remove();
+            }
+        }
     }
 
     private Contact searchByNameP(String n){  //private method to retrieve the contact by contact name
@@ -249,20 +289,20 @@ public class Phonebook {
     }
     public void addEvent() {
 
-        System.out.println("Enter event title: ");
+        System.out.print("Enter event title: ");
         String eventTitle = input.next();
 
-        System.out.println("Enter contact name: ");
+        System.out.print("Enter contact name: ");
         String contactName = input.next();
 
 
         Contact tmpContact = searchByNameP(contactName);
         if (tmpContact!= null && !check(tmpContact)) {
-            System.out.println("Enter event date Ex: YYYY/MM/DD ");
+            System.out.print("Enter event date Ex: YYYY/MM/DD : ");
             String date = input.next();
-            System.out.println("Enter event Start time Ex: HH:MM ");
+            System.out.print("Enter event Start time Ex: HH:MM : ");
             String startTime = input.next();
-            System.out.println("Enter event End time Ex: HH:MM ");
+            System.out.print("Enter event End time Ex: HH:MM : ");
             String endTime = input.next();
             int year= Integer.parseInt(date.split("/")[0]);
             int month= Integer.parseInt(date.split("/")[1]);
@@ -273,11 +313,9 @@ public class Phonebook {
             int endMinute=Integer.parseInt(endTime.split(":")[1]);
             LocalDateTime startEvent = LocalDateTime.of(year,month,day,startHour,startMinute);
             LocalDateTime endEvent = LocalDateTime.of(year,month,day,endHour,endMinute);
-
-
-
-            System.out.println("Enter event location: ");
+            System.out.print("Enter event location: ");
             String eventLocation = input.next();
+
             Event tmpEvent = new Event(eventTitle , startEvent ,endEvent, eventLocation, tmpContact);
             if (!isConflict(tmpEvent)){
                 sortEvent(tmpContact,tmpEvent);
@@ -311,8 +349,7 @@ public class Phonebook {
                 return false;
             }
         }
-        System.out.println("There's no Contact in your phonebook");
-        return true;
+        return false;
 
     }
 
@@ -341,11 +378,77 @@ public class Phonebook {
         allEvents.insert(s);
         return;
     }
+    public void searchEventByTitle(){
+        System.out.print("Enter event title: ");
+        String eventTitle = input.next();
+        boolean found=false;
+        if(!allEvents.empty()){
+            allEvents.findFirst();
+            while(!allEvents.last()){
+                if(allEvents.retrieve().getTitle().equalsIgnoreCase(eventTitle)){
+                    allEvents.retrieve().displayEvent();
+                    found=true;
+                }
+                allEvents.findNext();
+            }
+            if(allEvents.retrieve().getTitle().equalsIgnoreCase(eventTitle)){
+                allEvents.retrieve().displayEvent();
+                return;
+            }
+        }
+        if(!found)
+            System.out.println("Event not found");
+    }
+    public void searchEventByContactName(){
+        System.out.print("Enter contact name: ");
+        String contactName = input.next();
+        boolean found=false;
+        if(!allEvents.empty()){
+            allEvents.findFirst();
+            while(!allEvents.last()){
+                if(allEvents.retrieve().getContact().getContactName().equalsIgnoreCase(contactName)){
+                    allEvents.retrieve().displayEvent();
+                    found=true;
+                }
+                allEvents.findNext();
+            }
+            if(allEvents.retrieve().getContact().getContactName().equalsIgnoreCase(contactName)){
+                allEvents.retrieve().displayEvent();
+                return;
+            }
+        }
+        if(!found)
+            System.out.println("Event not found");
+    }
+    public void searchEvent(){
+        System.out.println("Search by: ");
+        System.out.println("1-Title");
+        System.out.println("2-Contact Name");
+        System.out.print("Enter your choice: ");
+        int choice = input.nextInt();
+        switch (choice) {
+            case 1:
+                searchEventByTitle();
+                break;
+            case 2:
+                searchEventByContactName();
+                break;
+            default:
+                System.out.println("Invalid choice");
+        }
+    }
 
-     /*to do:
-        1-delete name or phone number.
-        2- Create Events Class.
-        */
+    public void displayAllEvents(){
+        if(!allEvents.empty()){
+            allEvents.findFirst();
+            while (!allEvents.last()){
+                allEvents.retrieve().displayEvent();
+                allEvents.findNext();
+            }
+            allEvents.retrieve().displayEvent();
+        }
+        System.out.println("No events to display");
+    }
 
     public void display(){
         if(!c.empty()){

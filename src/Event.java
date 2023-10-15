@@ -44,10 +44,10 @@ public class Event implements Comparable <String>{
     }
 
 
-    public void displayEvents(){
+    public void displayEvent(){
         System.out.println("title: "+title);
-        System.out.println("start Time: "+ startTime);
-        System.out.println("end Time: "+ endTime);
+        System.out.println("starts at: "+ startTime);
+        System.out.println("ends at: "+ endTime);
         System.out.println("location: "+location);
         System.out.println("with: "+ contactInEvent.getContactName());
     }
