@@ -359,11 +359,9 @@ public class Phonebook {
         try {
             System.out.print("Enter event title: ");
             String eventTitle = input.nextLine();
-            input.nextLine(); //buffer cleaner
 
             System.out.print("Enter contact name: ");
             String contactName = input.nextLine();
-            input.nextLine(); //buffer cleaner
             // Search for the contact by name
             Contact tmpContact = searchByNameP(contactName);
             if (tmpContact != null && !check(tmpContact)) {
@@ -490,7 +488,6 @@ public class Phonebook {
             input.nextLine(); // buffer cleaner
             System.out.print("Enter contact name: ");
             String contactName = input.nextLine();
-            input.nextLine();
             boolean found = false;
             if (!allEvents.empty()) {
                 allEvents.findFirst();
@@ -515,7 +512,6 @@ public class Phonebook {
     // Method to search event by title or contact name
     public void searchEvent() {
         try {
-            input.nextLine();
             System.out.println("Search by: ");
             System.out.println("1-Title");
             System.out.println("2-Contact Name");
