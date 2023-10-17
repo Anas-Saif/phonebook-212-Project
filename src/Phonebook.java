@@ -21,9 +21,11 @@ public class Phonebook {
 
                 System.out.print("Enter contact phone: ");
                 String contactPhone = input.next();
-                while (contactPhone.length()!= 10) {
-                    System.out.println("Wrong Phone number format!");
-                    System.out.print("Enter contact phone: ");
+
+                //check phone number format
+                while (!contactPhone.matches("\\d{10}")) {
+                    System.out.println("Wrong Phone number format! Please enter 10 numeric digits.");
+                    System.out.print("Enter contact Phone Number: ");
                     contactPhone = input.next();
                 }
 
@@ -33,9 +35,17 @@ public class Phonebook {
                 System.out.print("Enter contact address: ");
                 String contactAddress = input.next();
 
-                System.out.print("Enter contact birthday: ");
+                System.out.print("Enter contact birthday (YYYY/MM/DD): ");
                 String contactBirthday = input.next();
                 input.nextLine();
+
+                //check date format
+                while (!contactBirthday.matches("^\\d{4}/\\d{2}/\\d{2}$")) {
+                    System.out.println("Invalid date of birth format. Use (YYYY/MM/DD).");
+                    System.out.print("Enter contact birthday (YYYY/MM/DD): ");
+                    contactBirthday = input.next();
+                }
+
                 System.out.print("Enter contact notes: ");
                 String contactNotes = input.nextLine();
 
@@ -132,6 +142,13 @@ public class Phonebook {
         input.nextLine();
         System.out.print("Enter contact Phone Number: ");
         String contactPhoneNumber = input.next();
+
+        //check phone number format
+        while (!contactPhoneNumber.matches("\\d{10}")) {
+            System.out.println("Wrong Phone number format! Please enter 10 numeric digits.");
+            System.out.print("Enter contact Phone Number: ");
+            contactPhoneNumber = input.next();
+        }
         if(!c.empty()){
             c.findFirst();
             while(!c.last()){
@@ -211,8 +228,16 @@ public class Phonebook {
     public void searchByBirthday(){
             try{
         input.nextLine();
-        System.out.print("Enter contact Birthday: ");
+        System.out.print("Enter contact birthday (YYYY/MM/DD): ");
         String contactBirthday = input.next();
+
+        //check date format
+        while (!contactBirthday.matches("^\\d{4}/\\d{2}/\\d{2}$")) {
+            System.out.println("Invalid date of birth format. Use (YYYY/MM/DD).");
+            System.out.print("Enter contact birthday (YYYY/MM/DD): ");
+            contactBirthday = input.next();
+        }
+
         boolean found=false;
         if(!c.empty()){
             c.findFirst();
@@ -362,12 +387,21 @@ public class Phonebook {
 
             System.out.print("Enter contact name: ");
             String contactName = input.nextLine();
+
             // Search for the contact by name
             Contact tmpContact = searchByNameP(contactName);
             if (tmpContact != null && !check(tmpContact)) {
                 // Prompt for event details
                 System.out.print("Enter event date Ex: YYYY/MM/DD : ");
                 String date = input.next();
+
+                //check date format
+                while (!date.matches("^\\d{4}/\\d{2}/\\d{2}$")) {
+                    System.out.println("Invalid date of birth format. Use (YYYY/MM/DD).");
+                    System.out.print("Enter contact birthday (YYYY/MM/DD): ");
+                    date = input.next();
+                }
+
                 System.out.print("Enter event Start time Ex: HH:MM : ");
                 String startTime = input.next();
                 System.out.print("Enter event End time Ex: HH:MM : ");
