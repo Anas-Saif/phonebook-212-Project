@@ -1,5 +1,5 @@
 import java.time.LocalDateTime;
-
+import java.util.InputMismatchException;
 import java.util.Scanner;
 public class Phonebook {
     private LinkedList <Contact> c = new LinkedList<>();
@@ -8,37 +8,53 @@ public class Phonebook {
     //
 
     // Method to add a new contact to the phonebook
-    public void addContact() {
-            // Prompt the user for contact details
-            System.out.print("Enter contact name: ");
-            String contactName = input.next();
 
-            System.out.print("Enter contact phone: ");
-            String contactPhone = input.next();
 
-            System.out.print("Enter contact email: ");
-            String contactEmail = input.next();
 
-            System.out.print("Enter contact address: ");
-            String contactAddress = input.next();
 
-            System.out.print("Enter contact birthday: ");
-            String contactBirthday = input.next();
+        public void addContact () {
+            try {
+                // Prompt the user for contact detail
+                System.out.print("Enter contact name: ");
+                String contactName = input.nextLine();
+                contactName = contactName.toLowerCase();
 
-            System.out.print("Enter contact notes: ");
-            String contactNotes = input.next();
+                System.out.print("Enter contact phone: ");
+                String contactPhone = input.next();
+                while (contactPhone.length()!= 10) {
+                    System.out.println("Wrong Phone number format!");
+                    System.out.print("Enter contact phone: ");
+                    contactPhone = input.next();
+                }
 
-            Contact tmp = new Contact(contactName, contactPhone, contactEmail, contactAddress, contactBirthday, contactNotes);
-            // Check if the contact already exists and add it to the phonebook
-            if(check(tmp)) {
-                sort(tmp); // Sort the phonebook to maintain alphabetical order
-                System.out.println("Added Successfully");
+                System.out.print("Enter contact email: ");
+                String contactEmail = input.next();
+
+                System.out.print("Enter contact address: ");
+                String contactAddress = input.next();
+
+                System.out.print("Enter contact birthday: ");
+                String contactBirthday = input.next();
+                input.nextLine();
+                System.out.print("Enter contact notes: ");
+                String contactNotes = input.nextLine();
+
+
+        Contact tmp = new Contact(contactName, contactPhone, contactEmail, contactAddress, contactBirthday, contactNotes);
+        // Check if the contact already exists and add it to the phonebook
+        if (check(tmp)) {
+            sort(tmp); // Sort the phonebook to maintain alphabetical order
+            System.out.println("Added Successfully");
+        } else {
+            System.out.println("Contact already exists");
+        }
+            } catch (InputMismatchException e){
+                System.out.println("Input miss match");
             }
-            else {
-                System.out.println("Contact already exists");
-            }
-            return ;
+
+        return;
     }
+
     // Method to check if a new contact conflicts with existing contacts
     public boolean check(Contact t){
         if(!c.empty()){
@@ -85,8 +101,11 @@ public class Phonebook {
     //searching method by anyway
     // Method to search for a contact by name
     public void searchByName(){
+            try {
+
+        input.nextLine();
         System.out.print("Enter contact name: ");
-        String contactName = input.next();
+        String contactName = input.nextLine();
         if(!c.empty()){
             c.findFirst();
             while(!c.last()){
@@ -96,15 +115,21 @@ public class Phonebook {
                 }
                 c.findNext();
             }
-            if(c.retrieve().getContactName().equals(contactName)){
+            if(c.retrieve().getContactName().equalsIgnoreCase(contactName)){
                 c.retrieve().displayContactDetails();
                 return;
             }
         }
         System.out.println("Contact not found");
+            } catch (InputMismatchException e){
+                System.out.println("Input miss match");
+            }
     }
     // Method to search for a contact by phone
     public void searchByPhone(){
+            try {
+
+        input.nextLine();
         System.out.print("Enter contact Phone Number: ");
         String contactPhoneNumber = input.next();
         if(!c.empty()){
@@ -122,9 +147,14 @@ public class Phonebook {
             }
         }
         System.out.println("Contact not found");
+            } catch (InputMismatchException e){
+                System.out.println("Input miss match");
+            }
     }
     // Method to search for a contact by email
     public void searchByEmail(){
+            try{
+        input.nextLine();
         System.out.print("Enter contact Email: ");
         String contactEmail = input.next();
         boolean found=false;
@@ -145,9 +175,14 @@ public class Phonebook {
         }
         if(!found)
             System.out.println("Contact not found");
+            } catch (InputMismatchException e){
+                System.out.println("Input miss match");
+            }
     }
     // Method to search for a contact by address
     public void searchByAddress(){
+            try {
+        input.nextLine();
         System.out.print("Enter contact Address: ");
         String contactAddress = input.next();
         boolean found=false;
@@ -168,9 +203,14 @@ public class Phonebook {
         }
         if(!found)
             System.out.println("Contact not found");
+            } catch (InputMismatchException e){
+                System.out.println("Input miss match");
+            }
     }
     // Method to search for a contact by birthday
     public void searchByBirthday(){
+            try{
+        input.nextLine();
         System.out.print("Enter contact Birthday: ");
         String contactBirthday = input.next();
         boolean found=false;
@@ -191,9 +231,13 @@ public class Phonebook {
         }
         if(!found)
             System.out.println("Contact not found");
+            } catch (InputMismatchException e){
+                System.out.println("Input miss match");
+            }
     }
 
     public void search(){
+            try{
         System.out.println("Search by: ");
         System.out.println("1-Name");
         System.out.println("2-Phone Number");
@@ -221,8 +265,12 @@ public class Phonebook {
             default:
                 System.out.println("Invalid choice");
         }
+            } catch (InputMismatchException e){
+                System.out.println("Input miss match");
+            }
     }
     public void searchByFirstName(){
+            try{
         System.out.print("Enter First Name: ");
         String firstName = input.next();
         firstName= firstName.split(" ")[0];
@@ -244,11 +292,17 @@ public class Phonebook {
         }
         if(!found)
             System.out.println("Contact not found");
+            } catch (InputMismatchException e){
+                System.out.println("Input miss match");
+            }
     }
     // Method to delete a contact
     public void deleteContact(){
+            try {
+        input.nextLine();
         System.out.print("Enter the contact name that you want to delete :");
-        String name = input.next();
+        String name = input.nextLine();
+        input.nextLine();
         Contact tmp = searchByNameP(name);
         if (tmp != null) {
             deleteEvent(tmp);
@@ -257,6 +311,9 @@ public class Phonebook {
             return;
         }
         System.out.println("The contact does not exists");
+            } catch (InputMismatchException e){
+                System.out.println("Input miss match");
+            }
         return;
     }
     // Method take Contact to delete all events related to this contact
@@ -275,6 +332,7 @@ public class Phonebook {
                 allEvents.remove();
             }
         }
+
     }
     //private method to retrieve the contact by contact name
     private Contact searchByNameP(String n){
@@ -293,55 +351,58 @@ public class Phonebook {
                 return c.retrieve();
             }
         }
-        System.out.println("Contact not found");
+        //System.out.println("Contact not found");
         return null;
     }
     // Method to add a new event
     public void addEvent() {
+        try {
+            System.out.print("Enter event title: ");
+            String eventTitle = input.nextLine();
+            input.nextLine(); //buffer cleaner
 
-        System.out.print("Enter event title: ");
-        String eventTitle = input.next();
+            System.out.print("Enter contact name: ");
+            String contactName = input.nextLine();
+            input.nextLine(); //buffer cleaner
+            // Search for the contact by name
+            Contact tmpContact = searchByNameP(contactName);
+            if (tmpContact != null && !check(tmpContact)) {
+                // Prompt for event details
+                System.out.print("Enter event date Ex: YYYY/MM/DD : ");
+                String date = input.next();
+                System.out.print("Enter event Start time Ex: HH:MM : ");
+                String startTime = input.next();
+                System.out.print("Enter event End time Ex: HH:MM : ");
+                String endTime = input.next();
 
-        System.out.print("Enter contact name: ");
-        String contactName = input.next();
+                // Parse date and time information and create a LocalDateTime object
+                int year = Integer.parseInt(date.split("/")[0]);
+                int month = Integer.parseInt(date.split("/")[1]);
+                int day = Integer.parseInt(date.split("/")[2]);
+                int startHour = Integer.parseInt(startTime.split(":")[0]);
+                int startMinute = Integer.parseInt(startTime.split(":")[1]);
+                int endHour = Integer.parseInt(endTime.split(":")[0]);
+                int endMinute = Integer.parseInt(endTime.split(":")[1]);
 
-        // Search for the contact by name
-        Contact tmpContact = searchByNameP(contactName);
-        if (tmpContact!= null && !check(tmpContact)) {
-            // Prompt for event details
-            System.out.print("Enter event date Ex: YYYY/MM/DD : ");
-            String date = input.next();
-            System.out.print("Enter event Start time Ex: HH:MM : ");
-            String startTime = input.next();
-            System.out.print("Enter event End time Ex: HH:MM : ");
-            String endTime = input.next();
+                // represent the event's start and end times
+                LocalDateTime startEvent = LocalDateTime.of(year, month, day, startHour, startMinute);
+                LocalDateTime endEvent = LocalDateTime.of(year, month, day, endHour, endMinute);
+                System.out.print("Enter event location: ");
+                String eventLocation = input.next();
 
-            // Parse date and time information and create a LocalDateTime object
-            int year= Integer.parseInt(date.split("/")[0]);
-            int month= Integer.parseInt(date.split("/")[1]);
-            int day= Integer.parseInt(date.split("/")[2]);
-            int startHour=Integer.parseInt(startTime.split(":")[0]);
-            int startMinute=Integer.parseInt(startTime.split(":")[1]);
-            int endHour=Integer.parseInt(endTime.split(":")[0]);
-            int endMinute=Integer.parseInt(endTime.split(":")[1]);
-
-            // represent the event's start and end times
-            LocalDateTime startEvent = LocalDateTime.of(year,month,day,startHour,startMinute);
-            LocalDateTime endEvent = LocalDateTime.of(year,month,day,endHour,endMinute);
-            System.out.print("Enter event location: ");
-            String eventLocation = input.next();
-
-            // Create a new Event object
-            Event tmpEvent = new Event(eventTitle , startEvent ,endEvent, eventLocation, tmpContact);
-            if (!isConflict(tmpEvent)){
-                sortEvent(tmpContact,tmpEvent);
-                tmpContact.setEventsInContact(tmpEvent);
-                System.out.println("Event has been added successfully");
+                // Create a new Event object
+                Event tmpEvent = new Event(eventTitle, startEvent, endEvent, eventLocation, tmpContact);
+                if (!isConflict(tmpEvent)) {
+                    sortEvent(tmpContact, tmpEvent);
+                    tmpContact.setEventsInContact(tmpEvent);
+                    System.out.println("Event has been added successfully");
+                }
+            } else {
+                System.out.println("The contact does not exist");
+                return;
             }
-        }
-        else {
-            System.out.println("The contact does not exist");
-            return;
+        } catch (InputMismatchException e) {
+            System.out.println("Input Miss Mach");
         }
     }
 
@@ -397,65 +458,81 @@ public class Phonebook {
         return;
     }
     // Method to search for an event by title
-    public void searchEventByTitle(){
-        System.out.print("Enter event title: ");
-        String eventTitle = input.next();
-        boolean found=false;
-        if(!allEvents.empty()){
-            allEvents.findFirst();
-            while(!allEvents.last()){
-                if(allEvents.retrieve().getTitle().equalsIgnoreCase(eventTitle)){
-                    allEvents.retrieve().displayEvent();
-                    found=true;
+    public void searchEventByTitle() {
+        try {
+            input.nextLine(); //buffer cleaner
+            System.out.print("Enter event title: ");
+            String eventTitle = input.nextLine();
+            boolean found = false;
+            if (!allEvents.empty()) {
+                allEvents.findFirst();
+                while (!allEvents.last()) {
+                    if (allEvents.retrieve().getTitle().equalsIgnoreCase(eventTitle)) {
+                        allEvents.retrieve().displayEvent();
+                        found = true;
+                    }
+                    allEvents.findNext();
                 }
-                allEvents.findNext();
+                if (allEvents.retrieve().getTitle().equalsIgnoreCase(eventTitle)) {
+                    allEvents.retrieve().displayEvent();
+                    return;
+                }
             }
-            if(allEvents.retrieve().getTitle().equalsIgnoreCase(eventTitle)){
-                allEvents.retrieve().displayEvent();
-                return;
-            }
+            if (!found)
+                System.out.println("Event not found");
+        } catch (InputMismatchException e){
+        System.out.println("Input miss match");
         }
-        if(!found)
-            System.out.println("Event not found");
     }
     // Method to search for an event by contact name
-    public void searchEventByContactName(){
-        System.out.print("Enter contact name: ");
-        String contactName = input.next();
-        boolean found=false;
-        if(!allEvents.empty()){
-            allEvents.findFirst();
-            while(!allEvents.last()){
-                if(allEvents.retrieve().getContact().getContactName().equalsIgnoreCase(contactName)){
-                    allEvents.retrieve().displayEvent();
-                    found=true;
+    public void searchEventByContactName() {
+        try {
+            input.nextLine(); // buffer cleaner
+            System.out.print("Enter contact name: ");
+            String contactName = input.nextLine();
+            input.nextLine();
+            boolean found = false;
+            if (!allEvents.empty()) {
+                allEvents.findFirst();
+                while (!allEvents.last()) {
+                    if (allEvents.retrieve().getContact().getContactName().equalsIgnoreCase(contactName)) {
+                        allEvents.retrieve().displayEvent();
+                        found = true;
+                    }
+                    allEvents.findNext();
                 }
-                allEvents.findNext();
+                if (allEvents.retrieve().getContact().getContactName().equalsIgnoreCase(contactName)) {
+                    allEvents.retrieve().displayEvent();
+                    return;
+                }
             }
-            if(allEvents.retrieve().getContact().getContactName().equalsIgnoreCase(contactName)){
-                allEvents.retrieve().displayEvent();
+            if (!found)
                 return;
-            }
+        } catch (InputMismatchException e) {
+            System.out.println("Input miss match");
         }
-        if(!found)
-            System.out.println("Event not found");
     }
     // Method to search event by title or contact name
-    public void searchEvent(){
-        System.out.println("Search by: ");
-        System.out.println("1-Title");
-        System.out.println("2-Contact Name");
-        System.out.print("Enter your choice: ");
-        int choice = input.nextInt();
-        switch (choice) {
-            case 1:
-                searchEventByTitle();
-                break;
-            case 2:
-                searchEventByContactName();
-                break;
-            default:
-                System.out.println("Invalid choice");
+    public void searchEvent() {
+        try {
+            input.nextLine();
+            System.out.println("Search by: ");
+            System.out.println("1-Title");
+            System.out.println("2-Contact Name");
+            System.out.print("Enter your choice: ");
+            int choice = input.nextInt();
+            switch (choice) {
+                case 1:
+                    searchEventByTitle();
+                    break;
+                case 2:
+                    searchEventByContactName();
+                    break;
+                default:
+                    System.out.println("Invalid choice");
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Input miss match");
         }
     }
     // Method to display all events
