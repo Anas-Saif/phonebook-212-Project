@@ -17,7 +17,7 @@ public class Phonebook {
                 // Prompt the user for contact detail
                 System.out.print("Enter contact name: ");
                 String contactName = input.nextLine();
-                contactName = contactName.toLowerCase();
+                //contactName = contactName.toLowerCase();
 
                 System.out.print("Enter contact phone: ");
                 String contactPhone = input.next();
@@ -37,7 +37,7 @@ public class Phonebook {
 
                 System.out.print("Enter contact birthday (YYYY/MM/DD): ");
                 String contactBirthday = input.next();
-                input.nextLine();
+
 
                 //check date format
                 while (!contactBirthday.matches("^\\d{4}/\\d{2}/\\d{2}$")) {
@@ -48,6 +48,7 @@ public class Phonebook {
 
                 System.out.print("Enter contact notes: ");
                 String contactNotes = input.nextLine();
+                input.nextLine(); //buffer cleaner
 
 
         Contact tmp = new Contact(contactName, contactPhone, contactEmail, contactAddress, contactBirthday, contactNotes);
@@ -365,13 +366,13 @@ public class Phonebook {
         if(!c.empty()){
             c.findFirst();
             while(!c.last()){
-                if(c.retrieve().getContactName().equals(n)){
+                if(c.retrieve().getContactName().equalsIgnoreCase(n)){
                     c.retrieve();
                     return c.retrieve();
                 }
                 c.findNext();
             }
-            if(c.retrieve().getContactName().equals(n)){
+            if(c.retrieve().getContactName().equalsIgnoreCase(n)){
                 c.retrieve();
                 return c.retrieve();
             }
@@ -385,9 +386,10 @@ public class Phonebook {
             System.out.print("Enter event title: ");
             String eventTitle = input.nextLine();
 
+            input.nextLine(); //buffer cleaner
             System.out.print("Enter contact name: ");
             String contactName = input.nextLine();
-
+            input.nextLine(); //buffer cleaner
             // Search for the contact by name
             Contact tmpContact = searchByNameP(contactName);
             if (tmpContact != null && !check(tmpContact)) {
